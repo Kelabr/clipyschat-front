@@ -15,9 +15,9 @@ export default function Register() {
   async function handleSubmit(e){
     e.preventDefault()
 
-    const newUser = {name, email, nascimeto:date, password}
+    const newUser = {name, email, date, password}
 
-    await fetch("", {
+    await fetch("http://localhost:3001/login", {
       method:"POST",
       headers: {
         "Content-Type":"application/json"
