@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 
 export default function Register() {
-
+  const router = useRouter()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [date, setDate] = useState("")
@@ -17,7 +18,7 @@ export default function Register() {
 
     const newUser = {name, email, date, password}
 
-    await fetch("http://localhost:3001/login", {
+    const response = await fetch("http://localhost:3001/register", {
       method:"POST",
       headers: {
         "Content-Type":"application/json"
@@ -25,6 +26,13 @@ export default function Register() {
       credentials: "include",
       body: JSON.stringify(newUser)
     })
+
+    if(!response.ok){
+      alert("Erro ao fazer registro")
+      return
+    }
+
+    router.push("/chat")
 
   }
 

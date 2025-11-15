@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 
 export default function Login() {
-
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -16,14 +17,21 @@ export default function Login() {
 
     const user = {email, password}
 
-    await fetch("", {
+    const response = await fetch("http://localhost:3001/login", {
       method: "POST",
       headers:{
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify(user)
-
     })
+
+    if(!response.ok){
+      alert("Erro ao fazer login")
+      return
+    }
+
+    router.push("/chat")
 
   }
 
