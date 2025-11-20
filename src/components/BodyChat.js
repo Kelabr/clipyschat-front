@@ -10,10 +10,16 @@ export default function BodyChat({ws, name}){
     const [messages, setMessages] = useState([])
 
     useEffect(() => {
-        ws.current.onmessage = (event) => {
+        const socket = ws.current
+
+        socket.onmessage = (event) => {
             const msg = JSON.parse(event.data)
             setMessages(prev => [...prev, msg])
         }
+        return () => {
+            socket.onmessage = null
+        }
+
     }, [])
 
     return(

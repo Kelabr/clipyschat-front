@@ -11,11 +11,19 @@ export default function Chat(){
 
     useEffect(() => {
         async function loadUser() {
+        try{
             const res = await fetch("http://localhost:3001/me", {
                 credentials: "include"
             })
+
+            if(!res.ok) return
+
             const data = await res.json()
             setUser(data.name)
+        }catch(error){
+            console.log("Error --", error)
+        }
+
         }
 
         loadUser()
@@ -52,7 +60,7 @@ export default function Chat(){
         <main className="h-screen flex">
 
             {/* Só renderiza BodyChat quando ws estiver pronto  */}
-            {isConnected && <BodyChat ws={wsRef} name={user} />}
+            {isConnected && user && <BodyChat ws={wsRef} name={user} />}
 
             <section className=" w-full  max-w-96 fixed bottom-0 bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.15)]">
                 <form onSubmit={sendMessage} className="flex p-1 gap-2">
