@@ -31,6 +31,10 @@ export default function Login() {
       return
     }
 
+    const data = await response.json()
+
+    localStorage.setItem("accessToken", data.accessToken)
+
     router.push("/chat")
 
   }
